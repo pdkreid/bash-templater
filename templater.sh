@@ -137,8 +137,7 @@ for default in $defaults; do
 
     # remove define line
     replaces="-e '/^{{$var=/d' $replaces"
-    vars="$vars
-$current"
+    vars="$vars $var"
 done
 
 vars=$(echo $vars | sort | uniq)
