@@ -126,6 +126,8 @@ replaces=""
 # You can even reference variables defined in the template before
 defaults=$(grep -oE '^\{\{[A-Za-z0-9_]+=.+\}\}' "${template}" | sed -e 's/^{{//' -e 's/}}$//')
 
+OIFS="$IFS"
+IFS=$'\n'
 for default in $defaults; do
     var=$(echo "$default" | grep -oE "^[A-Za-z0-9_]+")
     current=`var_value $var`
@@ -139,6 +141,7 @@ for default in $defaults; do
     replaces="-e '/^{{$var=/d' $replaces"
     vars="$vars $var"
 done
+IFS="$OIFS"
 
 vars=$(echo $vars | sort | uniq)
 
